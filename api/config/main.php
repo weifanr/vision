@@ -9,17 +9,25 @@ $params = array_merge(
 return [
     'id' => 'app-api',
     'basePath' => dirname(__DIR__),
-    'controllerNamespace' => 'api\controllers',
     'bootstrap' => ['log'],
     'modules' => [
-        'srbac' => [
-            'class' => 'backend\modules\srbac\SrbacModule',
+        'v1' => [
+            'class' => 'api\modules\v1\SrbacModule',
         ]
     ],
     'components' => [
         'user' => [
             'identityClass' => 'common\models\User',
             'enableAutoLogin' => true,
+        ],
+        'request' => [
+            'enableCsrfValidation' => false,
+        ],
+        'response' => [
+            'format' => \yii\web\Response::FORMAT_JSON,
+        ],
+        'errorHandler' => [
+            'class' => 'common\components\ErrorHandler',
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -30,9 +38,7 @@ return [
                 ],
             ],
         ],
-        'errorHandler' => [
-            'errorAction' => 'site/error',
-        ],
+
     ],
     'params' => $params,
 ];
